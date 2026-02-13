@@ -107,7 +107,7 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
             <span className="font-bold font-fraunces">ImmoPics.ai</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-foreground font-medium">{user.Vorname}</span>
+            <span className="text-sm text-foreground font-medium">Hallo {user.Vorname}</span>
             <Badge className="uppercase text-[10px] tracking-wider">{user.plan}</Badge>
           </div>
         </div>

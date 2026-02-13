@@ -90,6 +90,8 @@ const Upload = () => {
               phone_number: user.phone_number,
               image_base64: base64,
               mime_type: files[i].file.type,
+              image_name: files[i].file.name,
+              plan: user.plan,
               prompt,
             }),
           });

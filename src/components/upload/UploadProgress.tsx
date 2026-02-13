@@ -21,7 +21,7 @@ const UploadProgress = ({ current, total }: UploadProgressProps) => {
           <Loader2 className="h-10 w-10 animate-spin text-accent mx-auto" />
           <div>
             <h2 className="text-lg font-semibold font-fraunces text-foreground">
-              Bild {current} von {total} wird hochgeladen…
+              Bild {current} von {total} wird bearbeitet…
             </h2>
             <p className="text-sm text-muted-foreground mt-1">Pixi arbeitet…</p>
           </div>
