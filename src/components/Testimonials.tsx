@@ -28,11 +28,11 @@ const Testimonials = () => (
         Was unsere Kunden sagen
       </h2>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
         {testimonials.map((t) => (
           <div
             key={t.name}
-            className="bg-card border border-border rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            className="bg-card border border-border rounded-2xl p-6 lg:p-8 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
           >
             <div className="flex gap-0.5 mb-4">
               {Array.from({ length: t.stars }).map((_, i) => (
