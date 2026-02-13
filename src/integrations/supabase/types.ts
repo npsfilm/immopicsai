@@ -79,6 +79,7 @@ export type Database = {
           company: string | null
           created_at: string | null
           credits: number | null
+          current_batch_folder: string | null
           email: string | null
           human_edits: number | null
           human_edits_used: number | null
@@ -101,6 +102,7 @@ export type Database = {
           company?: string | null
           created_at?: string | null
           credits?: number | null
+          current_batch_folder?: string | null
           email?: string | null
           human_edits?: number | null
           human_edits_used?: number | null
@@ -123,6 +125,7 @@ export type Database = {
           company?: string | null
           created_at?: string | null
           credits?: number | null
+          current_batch_folder?: string | null
           email?: string | null
           human_edits?: number | null
           human_edits_used?: number | null

@@ -251,9 +251,19 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
         {files.length > 0 && (
           <div className="space-y-2">
             {!hasEnoughCredits && (
-              <p role="alert" className="text-sm text-destructive text-center font-medium">
-                Nicht genug Credits ({user.credits} übrig)
-              </p>
+              <div role="alert" className="text-center space-y-1">
+                <p className="text-sm text-destructive font-medium">
+                  Du hast {files.length} Bilder ausgewählt, aber nur {user.credits} Credits übrig. Entferne Bilder oder upgrade deinen Plan.
+                </p>
+                <a
+                  href="https://www.immopics.ai/upgrade"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-accent underline underline-offset-2 hover:text-accent/80"
+                >
+                  Jetzt upgraden →
+                </a>
+              </div>
             )}
             <Button
               onClick={() => onSubmit(files, globalInstruction, instructionMode)}
