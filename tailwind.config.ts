@@ -9,12 +9,12 @@ export default {
       center: true,
       padding: "1.5rem",
       screens: {
-        "2xl": "1200px",
+        "2xl": "1280px",
       },
     },
     extend: {
       fontFamily: {
-        fraunces: ["Fraunces", "serif"],
+        fraunces: ["Space Grotesk", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
       },
       colors: {

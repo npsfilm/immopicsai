@@ -13,7 +13,7 @@ const faqs = [
 
 const FAQ = () => (
   <section id="faq" className="py-20">
-    <div className="container mx-auto max-w-2xl">
+    <div className="container mx-auto max-w-2xl lg:max-w-3xl">
       <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary text-center mb-14">
         Häufige Fragen
       </h2>

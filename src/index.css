@@ -22,7 +22,7 @@
     --muted: 40 20% 96%;
     --muted-foreground: 216 15% 50%;
 
-    --accent: 145 75% 49%;
+    --accent: 172 66% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -34,7 +34,7 @@
 
     --radius: 0.75rem;
 
-    --whatsapp: 145 75% 49%;
+    --whatsapp: 172 66% 40%;
     --whatsapp-foreground: 0 0% 100%;
     --navy: 216 47% 26%;
     --navy-foreground: 0 0% 100%;
@@ -61,13 +61,13 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
 }
 
 @layer utilities {
   .font-fraunces {
-    font-family: 'Fraunces', serif;
+    font-family: 'Space Grotesk', sans-serif;
   }
   .font-outfit {
     font-family: 'Outfit', sans-serif;

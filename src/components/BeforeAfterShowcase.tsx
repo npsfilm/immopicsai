@@ -16,11 +16,11 @@ const BeforeAfterShowcase = () => (
         Überzeugen Sie sich selbst von der Qualität unserer KI-Bildbearbeitung.
       </p>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
         {items.map((item) => (
           <div
             key={item.title}
-            className="group bg-card rounded-2xl border border-border p-6 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+            className="group bg-card rounded-2xl border border-border p-6 lg:p-8 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
           >
             <div className="bg-cream rounded-xl h-48 flex items-center justify-center text-6xl mb-5">
               {item.emoji}

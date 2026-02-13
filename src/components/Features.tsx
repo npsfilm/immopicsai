@@ -17,11 +17,11 @@ const Features = () => (
         Unsere KI bietet alle wichtigen Bearbeitungsfunktionen für Immobilienfotos.
       </p>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {features.map((f) => (
           <div
             key={f.title}
-            className="bg-card border border-border rounded-2xl p-6 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+            className="bg-card border border-border rounded-2xl p-6 lg:p-8 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
           >
             <div className="w-12 h-12 bg-cream rounded-xl flex items-center justify-center text-2xl mb-4">
               {f.emoji}
