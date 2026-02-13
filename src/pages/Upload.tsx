@@ -21,8 +21,6 @@ interface UserData {
   plan: string;
   phone_number: string;
   is_subscriber: boolean;
-  human_edits: number;
-  human_edits_used: number;
 }
 
 type Step = "no-token" | "pin" | "upload" | "uploading" | "success" | "error";
