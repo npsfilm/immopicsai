@@ -72,4 +72,23 @@
   .font-outfit {
     font-family: 'Outfit', sans-serif;
   }
+  .animate-fade-in {
+    animation: fade-in 300ms ease-out;
+  }
+  .animate-shake {
+    animation: shake 400ms ease-out;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
 }
