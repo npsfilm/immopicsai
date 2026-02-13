@@ -29,7 +29,7 @@ const Portfolio = () => {
 
       <section className="pt-28 pb-12">
         <div className="container mx-auto text-center">
-          <h1 className="font-fraunces text-4xl sm:text-5xl font-bold text-primary mb-4">
+          <h1 className="font-grotesk text-4xl sm:text-5xl font-bold text-primary mb-4">
             Unsere Ergebnisse
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
@@ -69,7 +69,7 @@ const Portfolio = () => {
                 </div>
                 <div className="p-5">
                   <span className="text-xs font-medium text-accent">{item.category}</span>
-                  <h3 className="font-fraunces text-lg font-semibold text-primary mt-1">{item.title}</h3>
+                  <h3 className="font-grotesk text-lg font-semibold text-primary mt-1">{item.title}</h3>
                   <p className="text-muted-foreground text-sm mt-1">Vorher → Nachher Beispiel</p>
                 </div>
               </div>

@@ -9,7 +9,7 @@ const items = [
 const BeforeAfterShowcase = () => (
   <section className="py-20">
     <div className="container mx-auto">
-      <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
+      <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
         Vorher → Nachher
       </h2>
       <p className="text-muted-foreground text-center mb-12 max-w-xl mx-auto">
@@ -25,7 +25,7 @@ const BeforeAfterShowcase = () => (
             <div className="bg-cream rounded-xl h-48 flex items-center justify-center text-6xl mb-5">
               {item.emoji}
             </div>
-            <h3 className="font-fraunces text-xl font-semibold text-primary mb-2">{item.title}</h3>
+            <h3 className="font-grotesk text-xl font-semibold text-primary mb-2">{item.title}</h3>
             <p className="text-muted-foreground text-sm">{item.desc}</p>
           </div>
         ))}

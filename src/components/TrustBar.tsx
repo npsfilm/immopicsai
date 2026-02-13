@@ -8,7 +8,7 @@ const TrustBar = () => (
       </p>
       <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
         {brands.map((b) => (
-          <span key={b} className="text-muted-foreground/40 font-semibold text-lg font-fraunces">
+          <span key={b} className="text-muted-foreground/40 font-semibold text-lg font-grotesk">
             {b}
           </span>
         ))}

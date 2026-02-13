@@ -18,12 +18,12 @@ const HeroSection = () => {
           5 Bilder kostenlos testen
         </div>
 
-        <h1 className="font-fraunces text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-tight max-w-4xl mx-auto mb-6 lg:mb-8 animate-fade-up [animation-delay:100ms]">
+        <h1 className="font-grotesk text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-tight max-w-4xl mx-auto mb-6 lg:mb-8 animate-fade-up [animation-delay:100ms]">
           Professionelle Exposé-Fotos in Sekunden – per WhatsApp
         </h1>
 
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 lg:mb-14 animate-fade-up [animation-delay:200ms]">
-          Sende dein Immobilienfoto per WhatsApp und erhalte in Sekunden ein professionell bearbeitetes Bild zurück. KI-gestützt, schnell, einfach.
+          Senden Sie Ihr Immobilienfoto per WhatsApp und erhalten Sie in Sekunden ein professionell bearbeitetes Bild zurück. KI-gestützt, schnell, einfach.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:300ms]">

@@ -6,7 +6,7 @@ const Datenschutz = () => (
   <main>
     <Navigation />
     <div className="container mx-auto px-4 pt-32 pb-16 max-w-3xl">
-      <h1 className="text-3xl font-bold font-fraunces text-primary mb-8">Datenschutzerklärung</h1>
+      <h1 className="text-3xl font-bold font-grotesk text-primary mb-8">Datenschutzerklärung</h1>
 
       <div className="prose prose-sm max-w-none space-y-6 text-foreground/80">
         <section>

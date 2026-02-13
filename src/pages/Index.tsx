@@ -20,13 +20,13 @@ const Index = () => (
     <TrustBar />
     <BeforeAfterShowcase />
     <HowItWorks />
+    <Testimonials />
     <Features />
     <TargetAudiences />
-    <QualityGuarantee />
     <Pricing />
-    <Testimonials />
-    <RegistrationForm />
+    <QualityGuarantee />
     <FAQ />
+    <RegistrationForm />
     <FinalCTA />
     <Footer />
   </main>

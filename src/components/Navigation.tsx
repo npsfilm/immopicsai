@@ -41,8 +41,8 @@ const Navigation = () => {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between py-4">
-        <Link to="/" className="font-fraunces text-2xl font-bold text-primary">
-          ImmoAI
+        <Link to="/" className="font-grotesk text-2xl font-bold text-primary">
+          ImmoPics.ai
         </Link>
 
         {/* Desktop */}

@@ -6,12 +6,12 @@ const NoTokenScreen = () => (
     <div className="max-w-md w-full text-center space-y-6">
       <div className="flex items-center justify-center gap-2 text-primary mb-2">
         <Sparkles className="h-6 w-6 text-accent" />
-        <span className="text-xl font-bold font-fraunces">ImmoPics.ai</span>
+        <span className="text-xl font-bold font-grotesk">ImmoPics.ai</span>
       </div>
 
       <div className="bg-card rounded-2xl border p-8 shadow-sm space-y-4">
         <div className="text-4xl">🔒</div>
-        <h1 className="text-xl font-semibold font-fraunces text-foreground">
+        <h1 className="text-xl font-semibold font-grotesk text-foreground">
           Kein Zugangslink
         </h1>
         <p className="text-muted-foreground text-sm leading-relaxed">
