@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        fraunces: ["Space Grotesk", "sans-serif"],
+        grotesk: ["Space Grotesk", "sans-serif"],
         outfit: ["Outfit", "sans-serif"],
       },
       colors: {

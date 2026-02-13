@@ -10,7 +10,7 @@ const features = [
 const Features = () => (
   <section id="features" className="py-20">
     <div className="container mx-auto">
-      <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
+      <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
         Alles, was Sie brauchen
       </h2>
       <p className="text-muted-foreground text-center mb-14 max-w-xl mx-auto">
@@ -26,7 +26,7 @@ const Features = () => (
             <div className="w-12 h-12 bg-cream rounded-xl flex items-center justify-center text-2xl mb-4">
               {f.emoji}
             </div>
-            <h3 className="font-fraunces text-lg font-semibold text-primary mb-1">{f.title}</h3>
+            <h3 className="font-grotesk text-lg font-semibold text-primary mb-1">{f.title}</h3>
             <p className="text-muted-foreground text-sm">{f.desc}</p>
           </div>
         ))}

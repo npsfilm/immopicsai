@@ -4,7 +4,7 @@ const testimonials = [
   {
     name: "Thomas M.",
     role: "Immobilienmakler, München",
-    text: "Seit ich ImmoAI nutze, spare ich pro Exposé mindestens 30 Minuten. Die Qualität ist hervorragend!",
+    text: "Seit ich ImmoPics.ai nutze, spare ich pro Exposé mindestens 30 Minuten. Die Qualität ist hervorragend!",
     stars: 5,
   },
   {
@@ -24,7 +24,7 @@ const testimonials = [
 const Testimonials = () => (
   <section className="py-20">
     <div className="container mx-auto">
-      <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary text-center mb-14">
+      <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-14">
         Was unsere Kunden sagen
       </h2>
 

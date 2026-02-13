@@ -3,30 +3,43 @@ import { Check } from "lucide-react";
 
 const plans = [
   {
+    id: "free",
     name: "Free",
     monthlyPrice: 0,
     yearlyPrice: 0,
     desc: "Zum Ausprobieren",
-    features: ["5 Bilder / Monat", "Standard-Qualität", "WhatsApp-Zugang", "48h Bearbeitungszeit"],
+    features: ["5 Bilder / Monat", "1K Auflösung", "WhatsApp-Zugang", "1 Bild pro Upload"],
     cta: "Kostenlos starten",
     popular: false,
   },
   {
+    id: "starter",
+    name: "Starter",
+    monthlyPrice: 29,
+    yearlyPrice: 23,
+    desc: "Für Einsteiger",
+    features: ["25 Bilder / Monat", "2K Auflösung", "Alle Bearbeitungsarten", "Bis zu 5 Bilder pro Upload"],
+    cta: "Starter wählen",
+    popular: false,
+  },
+  {
+    id: "pro",
     name: "Pro",
     monthlyPrice: 49,
     yearlyPrice: 39,
     desc: "Für aktive Makler",
-    features: ["50 Bilder / Monat", "HD-Qualität", "Alle Bearbeitungsarten", "Sofort-Ergebnisse", "5 Profi-Bearbeitungen"],
+    features: ["50 Bilder / Monat", "4K Auflösung", "Alle Bearbeitungsarten", "Bis zu 5 Bilder pro Upload", "5 Profi-Bearbeitungen"],
     cta: "Pro wählen",
     popular: true,
   },
   {
-    name: "Premium",
+    id: "team",
+    name: "Team",
     monthlyPrice: 129,
     yearlyPrice: 99,
     desc: "Für Teams & Agenturen",
-    features: ["Unbegrenzte Bilder", "HD-Qualität", "Alle Bearbeitungsarten", "Sofort-Ergebnisse", "20 Profi-Bearbeitungen", "Prioritäts-Support"],
-    cta: "Premium wählen",
+    features: ["Unbegrenzte Bilder", "4K Auflösung", "Alle Bearbeitungsarten", "Bis zu 20 Bilder pro Upload", "20 Profi-Bearbeitungen", "Prioritäts-Support"],
+    cta: "Team wählen",
     popular: false,
   },
 ];
@@ -40,7 +53,7 @@ const Pricing = () => {
   return (
     <section id="pricing" className="py-20 bg-cream">
       <div className="container mx-auto">
-        <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
+        <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
           Einfache, transparente Preise
         </h2>
         <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
@@ -70,7 +83,7 @@ const Pricing = () => {
           )}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -83,10 +96,10 @@ const Pricing = () => {
                   Beliebt
                 </span>
               )}
-              <h3 className="font-fraunces text-xl font-semibold text-primary">{plan.name}</h3>
+              <h3 className="font-grotesk text-xl font-semibold text-primary">{plan.name}</h3>
               <p className="text-muted-foreground text-sm mb-4">{plan.desc}</p>
               <div className="mb-6">
-                <span className="font-fraunces text-4xl lg:text-5xl font-bold text-primary">
+                <span className="font-grotesk text-4xl lg:text-5xl font-bold text-primary">
                   {yearly ? plan.yearlyPrice : plan.monthlyPrice}€
                 </span>
                 <span className="text-muted-foreground text-sm"> / Monat</span>

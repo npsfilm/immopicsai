@@ -104,10 +104,10 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
         <div className="max-w-[800px] mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2 text-primary">
             <Sparkles className="h-5 w-5 text-accent" />
-            <span className="font-bold font-fraunces">ImmoPics.ai</span>
+            <span className="font-bold font-grotesk">ImmoPics.ai</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-foreground font-medium">{user.Vorname}</span>
+            <span className="text-sm text-foreground font-medium">Hallo {user.Vorname}</span>
             <Badge className="uppercase text-[10px] tracking-wider">{user.plan}</Badge>
           </div>
         </div>
@@ -122,7 +122,7 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
             { label: "Max. Bilder", value: config.max },
           ].map((stat) => (
             <div key={stat.label} className="bg-card rounded-2xl border p-3 text-center">
-              <p className="text-lg font-bold font-fraunces text-foreground">{stat.value}</p>
+              <p className="text-lg font-bold font-grotesk text-foreground">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>
           ))}

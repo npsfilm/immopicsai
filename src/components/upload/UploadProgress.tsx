@@ -14,14 +14,14 @@ const UploadProgress = ({ current, total }: UploadProgressProps) => {
       <div className="max-w-md w-full text-center space-y-6">
         <div className="flex items-center justify-center gap-2 text-primary mb-2">
           <Sparkles className="h-6 w-6 text-accent" />
-          <span className="text-xl font-bold font-fraunces">ImmoPics.ai</span>
+          <span className="text-xl font-bold font-grotesk">ImmoPics.ai</span>
         </div>
 
         <div className="bg-card rounded-2xl border p-8 shadow-sm space-y-6">
           <Loader2 className="h-10 w-10 animate-spin text-accent mx-auto" />
           <div>
-            <h2 className="text-lg font-semibold font-fraunces text-foreground">
-              Bild {current} von {total} wird hochgeladen…
+            <h2 className="text-lg font-semibold font-grotesk text-foreground">
+              Bild {current} von {total} wird bearbeitet…
             </h2>
             <p className="text-sm text-muted-foreground mt-1">Pixi arbeitet…</p>
           </div>

@@ -5,7 +5,7 @@ const FinalCTA = () => {
   return (
     <section className="py-20 bg-cream">
       <div className="container mx-auto text-center">
-        <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary mb-6">
+        <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary mb-6">
           Bereit für professionelle Exposé-Fotos?
         </h2>
         <p className="text-muted-foreground mb-8 max-w-lg mx-auto">

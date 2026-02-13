@@ -5,7 +5,7 @@ const QualityGuarantee = () => (
     <div className="container mx-auto">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div>
-          <h2 className="font-fraunces text-3xl sm:text-4xl font-bold text-primary mb-6">
+          <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary mb-6">
             Qualität, auf die Sie sich verlassen können
           </h2>
           <p className="text-muted-foreground mb-6 leading-relaxed">
