@@ -26,7 +26,10 @@ type Step = "no-token" | "pin" | "upload" | "uploading" | "success" | "error";
 const readFileAsBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      resolve(dataUrl.split(",")[1] ?? dataUrl);
+    };
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -68,6 +71,8 @@ const Upload = () => {
 
       const config = PLAN_CONFIG[user.plan] || PLAN_CONFIG.free;
 
+      let successCount = 0;
+
       for (let i = 0; i < files.length; i++) {
         setUploadState({ current: i + 1, total: files.length });
         try {
@@ -78,27 +83,53 @@ const Upload = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              type: "image",
               token,
               phone_number: user.phone_number,
               image_base64: base64,
-              image_name: files[i].file.name,
-              prompt,
-              plan: user.plan,
               mime_type: files[i].file.type,
+              prompt,
             }),
           });
 
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          setUser(prev => prev ? { ...prev, credits: prev.credits - 1 } : prev);
+          if (!res.ok) {
+            console.error(`Bild ${i + 1} fehlgeschlagen: HTTP ${res.status}`);
+            continue;
+          }
+
+          const result = await res.json();
+          if (result.success) {
+            successCount++;
+            setUser(prev =>
+              prev ? { ...prev, credits: result.credits_remaining ?? prev.credits - 1 } : prev
+            );
+          } else {
+            console.error(`Bild ${i + 1} fehlgeschlagen:`, result.error);
+          }
         } catch (err) {
-          console.error("Upload failed:", err);
-          setStep("error");
-          return;
+          console.error(`Bild ${i + 1} Upload-Fehler:`, err);
         }
       }
 
-      setLastUpload({ count: files.length, res: config.res });
-      setStep("success");
+      // Complete-Request: Batch abschließen (Ordner public machen + WhatsApp-Nachricht)
+      if (successCount > 0) {
+        try {
+          await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "complete", token }),
+          });
+        } catch (err) {
+          console.error("Complete-Request fehlgeschlagen:", err);
+        }
+      }
+
+      if (successCount > 0) {
+        setLastUpload({ count: successCount, res: config.res });
+        setStep("success");
+      } else {
+        setStep("error");
+      }
     },
     [user, token]
   );
