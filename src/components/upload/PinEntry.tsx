@@ -92,13 +92,13 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
               onChange={setPin}
               disabled={isLocked || loading}
             >
-              <InputOTPGroup>
-                <InputOTPSlot index={0} className="h-14 w-14 text-2xl rounded-xl border-border" />
-                <InputOTPSlot index={1} className="h-14 w-14 text-2xl rounded-xl border-border" />
-                <InputOTPSlot index={2} className="h-14 w-14 text-2xl rounded-xl border-border" />
-                <InputOTPSlot index={3} className="h-14 w-14 text-2xl rounded-xl border-border" />
-                <InputOTPSlot index={4} className="h-14 w-14 text-2xl rounded-xl border-border" />
-                <InputOTPSlot index={5} className="h-14 w-14 text-2xl rounded-xl border-border" />
+              <InputOTPGroup className="gap-2">
+                <InputOTPSlot index={0} className="h-14 w-14 text-2xl rounded-xl border border-border" />
+                <InputOTPSlot index={1} className="h-14 w-14 text-2xl rounded-xl border border-border" />
+                <InputOTPSlot index={2} className="h-14 w-14 text-2xl rounded-xl border border-border" />
+                <InputOTPSlot index={3} className="h-14 w-14 text-2xl rounded-xl border border-border" />
+                <InputOTPSlot index={4} className="h-14 w-14 text-2xl rounded-xl border border-border" />
+                <InputOTPSlot index={5} className="h-14 w-14 text-2xl rounded-xl border border-border" />
               </InputOTPGroup>
             </InputOTP>
           </div>
