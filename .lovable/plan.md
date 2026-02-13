@@ -1,105 +1,62 @@
 
 
-# ImmoAI Landing Page – Implementation Plan
+# Desktop-Optimierung, neue Farbe und neue Schrift
 
-## Overview
-A conversion-optimized, mobile-first landing page for ImmoAI – an AI-powered real estate photo editing service via WhatsApp. Includes a one-pager with 14 sections and a portfolio subpage (/ergebnisse).
+## Was sich andert
 
-**Design:** Clean, white background with Navy (#233C63) and WhatsApp Green (#25D366) accents. Google Fonts: Fraunces (headlines) + Outfit (body text).
+### 1. Neue Accent-Farbe: Teal / Petrol
+Die WhatsApp-gruene Accent-Farbe (`hsl(145, 75%, 49%)`) wird durch ein elegantes Teal ersetzt. Dies betrifft alle Buttons, Badges, Toggle-Elemente, Check-Icons und Highlight-Boxen auf der gesamten Seite.
 
----
+- **Neue Accent-Farbe:** `hsl(172, 66%, 40%)` (ein sattes Petrol/Teal, ca. `#22A699`)
+- Die `--whatsapp`-Variable wird ebenfalls angepasst bzw. entfernt, da sie nicht mehr relevant ist
 
-## Page 1: Main Landing Page (One-Pager)
+**Betroffene Dateien:** `src/index.css` (CSS-Variablen)
 
-### 1. Sticky Navigation
-- Logo "ImmoAI" on the left, navigation links + green CTA button on the right
-- Mobile: hamburger menu with full-width links
-- Glass-effect background with shadow on scroll
+### 2. Neue Headline-Schrift: Space Grotesk
+Fraunces (Serif) wird durch Space Grotesk (geometric sans-serif) ersetzt, das einen modernen, tech-orientierten AI-Look vermittelt.
 
-### 2. Hero Section
-- Animated green badge "5 Bilder kostenlos testen" with pulse dot
-- Large headline: "Professionelle Exposé-Fotos in Sekunden – per WhatsApp"
-- Two buttons: green primary CTA + outline secondary button
-- Subtle radial gradient background (no images)
-- Staggered fade-up animations on load
+- Google Fonts Link in `index.html` aktualisieren (Fraunces raus, Space Grotesk rein)
+- `tailwind.config.ts`: Font-Family Mapping anpassen
+- `src/index.css`: Font-Referenzen aktualisieren
+- Alle Komponenten verwenden bereits `font-fraunces`-Klasse -- diese wird umbenannt zu `font-space` oder die Utility-Klasse wird intern auf Space Grotesk umgemappt
 
-### 3. Trust Bar
-- "Vertraut von Immobilienprofis" label with placeholder brand names (Engel & Völkers, RE/MAX, etc.)
+**Betroffene Dateien:** `index.html`, `tailwind.config.ts`, `src/index.css`, ggf. alle Komponenten mit `font-fraunces`
 
-### 4. Before/After Showcase
-- 3-card grid showing sky replacement, virtual staging, and object removal
-- Cards with hover lift effect
-- Link to full portfolio page
+### 3. Desktop-Layout-Optimierungen (Mobile bleibt unverandert)
+Verbesserungen die nur ab `md:` / `lg:` Breakpoints greifen:
 
-### 5. How It Works (3 Steps)
-- Step cards with numbered navy badges: Register → Send Photo → Get Result
-- Off-white background section
-
-### 6. Features (6-Card Grid)
-- Virtual Staging, Sky Optimization, Object Removal, Instant Results, HD Quality, WhatsApp-based
-- Emoji icons in cream-colored boxes
-
-### 7. Target Audiences (4 Cards)
-- Real estate agents, architects, property managers, private sellers
-- 2×2 grid on desktop
-
-### 8. Quality Guarantee
-- Two-column layout: text on left explaining AI + human editing, vertical flow diagram on right
-- Green highlight box for "unlimited corrections" promise
-
-### 9. Pricing (3 Plans + Toggle)
-- Monthly/Yearly toggle with animated slider and -20% badge
-- Free (0€), Pro (49€/39€), Premium (129€/99€)
-- Pro card highlighted with "Beliebt" badge
-- Explanation box for "Profi-Bearbeitungen" below
-
-### 10. Testimonials
-- 3 placeholder testimonial cards with star ratings
-
-### 11. Registration Form
-- Navy background with glass-effect inputs
-- 4 fields: Name, Email, WhatsApp number, Role dropdown
-- Privacy checkbox + green submit button with WhatsApp icon
-- Trust badges (DSGVO, no credit card, instant WhatsApp)
-- Success state with confirmation message after submit
-- POST to configurable webhook URL (n8n integration ready)
-
-### 12. FAQ Accordion
-- 8 questions with smooth expand/collapse animations
-- Single-open behavior
-
-### 13. Final CTA
-- Cream background, headline + green CTA button for last-chance conversion
-
-### 14. Footer
-- Copyright, legal links (Impressum, Datenschutz, AGB)
+- **Hero:** Mehr vertikalen Whitespace, grossere Headline-Font-Size auf Desktop (`lg:text-7xl`)
+- **Before/After, Features, Testimonials:** Grossere Card-Padding und bessere Grid-Abstande auf Desktop
+- **Pricing:** Mehr Spacing zwischen den Karten, grossere Schrift fur Preise auf Desktop
+- **Quality Guarantee:** Besseres horizontales Layout mit mehr Platz zwischen Text und Flow-Diagram
+- **FAQ:** Breiterer Max-Width auf Desktop (von `max-w-2xl` auf `max-w-3xl`)
+- **Container:** Max-Width von `1200px` auf `1280px` erhohen fur mehr Luft
 
 ---
 
-## Page 2: Portfolio Page (/ergebnisse)
+## Technische Details
 
-- Shared navigation and footer
-- Mini hero with headline
-- Filter tabs: Alle, Virtual Staging, Himmel, Objekte entfernen, Gesamtoptimierung
-- Gallery grid with before/after placeholder cards (9-12 items)
-- CTA at bottom linking back to registration form
+### index.html
+- Fraunces Google Font durch Space Grotesk ersetzen
 
----
+### src/index.css
+- `--accent` von `145 75% 49%` auf `172 66% 40%` andern
+- `--whatsapp` ebenfalls auf den neuen Teal-Wert setzen
+- Font-Familie in `h1-h6` Regel auf `'Space Grotesk'` andern
+- `.font-fraunces` Utility auf `'Space Grotesk'` umstellen
 
-## Animations & Interactions
-- Scroll-reveal animations on all sections (fade up)
-- Card hover effects (lift + shadow)
-- Pricing toggle with smooth price transitions
-- Accordion with chevron rotation
-- Pulse animation on hero badge dot
-- Nav shadow transition on scroll
+### tailwind.config.ts
+- `fontFamily.fraunces` auf `["Space Grotesk", "sans-serif"]` andern
+- Container `2xl` Screen auf `1280px`
 
----
+### Komponenten-Dateien
+Alle Dateien die `font-fraunces` oder `accent`/`text-accent` verwenden, funktionieren automatisch uber die CSS-Variablen und Tailwind-Utilities -- keine manuellen Anderungen in den Komponenten notig fur Farbe und Font.
 
-## Technical Notes
-- Fully responsive with breakpoints at 900px, 768px, and 400px
-- Webhook URL for form submission will be configurable (placeholder for n8n)
-- No backend needed initially – form submits to external webhook
-- Placeholder images for before/after comparisons (to be replaced with real assets)
-- All text content in German as specified in the blueprint
-
+Desktop-spezifische Layout-Tweaks werden in folgenden Dateien vorgenommen:
+- `HeroSection.tsx` - grossere Headline, mehr Padding
+- `BeforeAfterShowcase.tsx` - Card-Spacing
+- `Features.tsx` - Grid-Gap
+- `Pricing.tsx` - Desktop-Spacing
+- `QualityGuarantee.tsx` - Layout-Balance
+- `FAQ.tsx` - breiterer Container
+- `Testimonials.tsx` - Card-Padding
