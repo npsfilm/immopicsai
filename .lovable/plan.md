@@ -1,11 +1,15 @@
 
-## Abstand zwischen PIN-Kacheln
+# Registrierungs-Webhook auf eigene URL umstellen
 
-Die PIN-Eingabe ist bereits 6-stellig (das ist korrekt implementiert). Das Problem ist, dass die 6 Kacheln direkt aneinander kleben ohne Abstand.
+## Aenderung
 
-### Aenderung
+In `src/components/RegistrationForm.tsx` nutzt das Formular aktuell die allgemeine `VITE_N8N_WEBHOOK_URL` Umgebungsvariable fuer den Registrierungs-Webhook. Diese wird durch die dedizierte Registrierungs-URL ersetzt:
 
-In `src/components/upload/PinEntry.tsx` wird der `InputOTPGroup`-Container mit einer `gap-2` Klasse versehen, damit zwischen den einzelnen Slots ein Abstand entsteht. Ausserdem muessen die Slots von `border-y border-r` (geteilte Raender) auf vollstaendige individuelle Borders umgestellt werden, damit jede Kachel als eigenstaendige Box erscheint.
+```
+https://immoonpoint.app.n8n.cloud/webhook/f5b1617b-57d6-407c-8f78-a8e828684f39
+```
+
+Konkret wird Zeile 6 geaendert: Statt `import.meta.env.VITE_N8N_WEBHOOK_URL` wird die URL direkt als Konstante gesetzt. Die gesendeten Daten (firstName, lastName, email, phone, plan) bleiben unveraendert.
 
 ### Betroffene Datei
-- `src/components/upload/PinEntry.tsx` -- `gap-2` auf `InputOTPGroup` und individuelle Border-Klassen auf jedem Slot
+- `src/components/RegistrationForm.tsx` -- Zeile 6: Webhook-URL Konstante aendern
