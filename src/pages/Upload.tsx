@@ -89,6 +89,7 @@ const Upload = () => {
           });
 
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          setUser(prev => prev ? { ...prev, credits: prev.credits - 1 } : prev);
         } catch (err) {
           console.error("Upload failed:", err);
           setStep("error");
