@@ -34,7 +34,7 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
 
     try {
       const { data, error: dbError } = await supabase
-        .from("users")
+        .from("upload_access")
         .select("Vorname, credits, plan, phone_number")
         .eq("upload_token", token)
         .eq("upload_pin", pin)

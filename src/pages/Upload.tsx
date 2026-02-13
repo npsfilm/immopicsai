@@ -26,7 +26,10 @@ type Step = "no-token" | "pin" | "upload" | "uploading" | "success" | "error";
 const readFileAsBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      resolve(dataUrl.split(",")[1] ?? dataUrl);
+    };
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -39,6 +42,7 @@ const Upload = () => {
   const [step, setStep] = useState<Step>(token ? "pin" : "no-token");
   const [uploadState, setUploadState] = useState({ current: 0, total: 0 });
   const [lastUpload, setLastUpload] = useState({ count: 0, res: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Store files + instruction for retry
   const [pendingUpload, setPendingUpload] = useState<{
@@ -64,9 +68,12 @@ const Upload = () => {
 
       setPendingUpload({ files, globalInstruction, mode });
       setUploadState({ current: 0, total: files.length });
+      setErrorMessage("");
       setStep("uploading");
 
       const config = PLAN_CONFIG[user.plan] || PLAN_CONFIG.free;
+
+      let successCount = 0;
 
       for (let i = 0; i < files.length; i++) {
         setUploadState({ current: i + 1, total: files.length });
@@ -78,27 +85,64 @@ const Upload = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              type: "image",
               token,
               phone_number: user.phone_number,
               image_base64: base64,
-              image_name: files[i].file.name,
-              prompt,
-              plan: user.plan,
               mime_type: files[i].file.type,
+              prompt,
             }),
           });
 
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          setUser(prev => prev ? { ...prev, credits: prev.credits - 1 } : prev);
+          if (!res.ok) {
+            if (res.status === 401) {
+              setErrorMessage("Dein Zugangslink ist ungültig. Bitte fordere einen neuen über WhatsApp an.");
+              setStep("error");
+              return;
+            }
+            if (res.status === 402) {
+              setErrorMessage("Dein Guthaben ist aufgebraucht. Bitte upgrade deinen Plan.");
+              setStep("error");
+              return;
+            }
+            // 503 oder andere Fehler: Bild überspringen, Rest weiter
+            console.error(`Bild ${i + 1} fehlgeschlagen: HTTP ${res.status}`);
+            continue;
+          }
+
+          const result = await res.json();
+          if (result.success) {
+            successCount++;
+            setUser(prev =>
+              prev ? { ...prev, credits: result.credits_remaining ?? prev.credits - 1 } : prev
+            );
+          } else {
+            console.error(`Bild ${i + 1} fehlgeschlagen:`, result.error);
+          }
         } catch (err) {
-          console.error("Upload failed:", err);
-          setStep("error");
-          return;
+          console.error(`Bild ${i + 1} Upload-Fehler:`, err);
         }
       }
 
-      setLastUpload({ count: files.length, res: config.res });
-      setStep("success");
+      // Complete-Request: Batch abschließen (Ordner public machen + WhatsApp-Nachricht)
+      if (successCount > 0) {
+        try {
+          await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "complete", token }),
+          });
+        } catch (err) {
+          console.error("Complete-Request fehlgeschlagen:", err);
+        }
+      }
+
+      if (successCount > 0) {
+        setLastUpload({ count: successCount, res: config.res });
+        setStep("success");
+      } else {
+        setStep("error");
+      }
     },
     [user, token]
   );
@@ -120,7 +164,7 @@ const Upload = () => {
         onUploadMore={() => setStep("upload")}
       />
     );
-  if (step === "error") return <ErrorScreen onRetry={handleRetry} />;
+  if (step === "error") return <ErrorScreen onRetry={handleRetry} message={errorMessage || undefined} />;
 
   // step === "upload"
   return user ? (

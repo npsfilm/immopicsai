@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 
 interface ErrorScreenProps {
   onRetry: () => void;
+  message?: string;
 }
 
-const ErrorScreen = ({ onRetry }: ErrorScreenProps) => (
+const ErrorScreen = ({ onRetry, message }: ErrorScreenProps) => (
   <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 animate-fade-in">
     <div className="max-w-md w-full text-center space-y-6">
       <div className="flex items-center justify-center gap-2 text-primary mb-2">
@@ -17,7 +18,7 @@ const ErrorScreen = ({ onRetry }: ErrorScreenProps) => (
         <div className="text-5xl">❌</div>
         <h1 className="text-xl font-semibold font-fraunces text-foreground">Upload fehlgeschlagen</h1>
         <p className="text-sm text-muted-foreground" role="alert">
-          Bitte versuche es nochmal.
+          {message || "Bitte versuche es nochmal."}
         </p>
       </div>
 
