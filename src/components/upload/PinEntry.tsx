@@ -6,11 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 
 interface UserData {
   Vorname: string;
-  Nachname: string;
   credits: number;
   plan: string;
   phone_number: string;
-  is_subscriber: boolean;
 }
 
 interface PinEntryProps {
@@ -29,7 +27,7 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
   const isLocked = lockedUntil !== null && Date.now() < lockedUntil;
 
   const handleVerify = useCallback(async () => {
-    if (pin.length !== 4 || loading || isLocked) return;
+    if (pin.length !== 6 || loading || isLocked) return;
 
     setLoading(true);
     setError("");
@@ -37,10 +35,10 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
     try {
       const { data, error: dbError } = await supabase
         .from("users")
-        .select("Vorname, Nachname, credits, plan, phone_number, is_subscriber")
+        .select("Vorname, credits, plan, phone_number")
         .eq("upload_token", token)
         .eq("upload_pin", pin)
-        .single();
+        .maybeSingle();
 
       if (dbError || !data) {
         const newAttempts = attempts + 1;
@@ -83,13 +81,13 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
               Willkommen bei ImmoPics.ai
             </h1>
             <p className="text-sm text-muted-foreground mt-2">
-              Bitte gib deine 4-stellige PIN ein, die du per WhatsApp erhalten hast.
+              Bitte gib deine 6-stellige PIN ein, die du per WhatsApp erhalten hast.
             </p>
           </div>
 
           <div className={`flex justify-center ${shaking ? "animate-shake" : ""}`}>
             <InputOTP
-              maxLength={4}
+              maxLength={6}
               value={pin}
               onChange={setPin}
               disabled={isLocked || loading}
@@ -99,6 +97,8 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
                 <InputOTPSlot index={1} className="h-14 w-14 text-2xl rounded-xl border-border" />
                 <InputOTPSlot index={2} className="h-14 w-14 text-2xl rounded-xl border-border" />
                 <InputOTPSlot index={3} className="h-14 w-14 text-2xl rounded-xl border-border" />
+                <InputOTPSlot index={4} className="h-14 w-14 text-2xl rounded-xl border-border" />
+                <InputOTPSlot index={5} className="h-14 w-14 text-2xl rounded-xl border-border" />
               </InputOTPGroup>
             </InputOTP>
           </div>
@@ -109,9 +109,9 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
             </p>
           )}
 
-          <Button
-            onClick={handleVerify}
-            disabled={pin.length !== 4 || loading || isLocked}
+            <Button
+              onClick={handleVerify}
+              disabled={pin.length !== 6 || loading || isLocked}
             className="w-full rounded-2xl h-12 text-base font-semibold hover:-translate-y-px transition-all"
           >
             {loading ? (
