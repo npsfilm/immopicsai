@@ -3,7 +3,7 @@ import { MessageCircle, Shield, CreditCard, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 
-const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || "";
+const WEBHOOK_URL = "https://immoonpoint.app.n8n.cloud/webhook/f5b1617b-57d6-407c-8f78-a8e828684f39";
 
 const COUNTRY_CODES = [
   { code: "+49", label: "DE +49" },
