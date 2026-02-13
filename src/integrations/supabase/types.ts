@@ -145,7 +145,42 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      upload_access: {
+        Row: {
+          credits: number | null
+          human_edits: number | null
+          human_edits_used: number | null
+          is_subscriber: boolean | null
+          phone_number: string | null
+          plan: string | null
+          upload_pin: string | null
+          upload_token: string | null
+          Vorname: string | null
+        }
+        Insert: {
+          credits?: number | null
+          human_edits?: number | null
+          human_edits_used?: number | null
+          is_subscriber?: boolean | null
+          phone_number?: string | null
+          plan?: string | null
+          upload_pin?: string | null
+          upload_token?: string | null
+          Vorname?: string | null
+        }
+        Update: {
+          credits?: number | null
+          human_edits?: number | null
+          human_edits_used?: number | null
+          is_subscriber?: boolean | null
+          phone_number?: string | null
+          plan?: string | null
+          upload_pin?: string | null
+          upload_token?: string | null
+          Vorname?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

@@ -16,11 +16,9 @@ const PLAN_CONFIG: Record<string, { res: string; max: number }> = {
 
 interface UserData {
   Vorname: string;
-  Nachname: string;
   credits: number;
   plan: string;
   phone_number: string;
-  is_subscriber: boolean;
 }
 
 type Step = "no-token" | "pin" | "upload" | "uploading" | "success" | "error";
