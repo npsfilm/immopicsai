@@ -42,6 +42,7 @@ const Upload = () => {
   const [step, setStep] = useState<Step>(token ? "pin" : "no-token");
   const [uploadState, setUploadState] = useState({ current: 0, total: 0 });
   const [lastUpload, setLastUpload] = useState({ count: 0, res: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Store files + instruction for retry
   const [pendingUpload, setPendingUpload] = useState<{
@@ -67,6 +68,7 @@ const Upload = () => {
 
       setPendingUpload({ files, globalInstruction, mode });
       setUploadState({ current: 0, total: files.length });
+      setErrorMessage("");
       setStep("uploading");
 
       const config = PLAN_CONFIG[user.plan] || PLAN_CONFIG.free;
@@ -93,6 +95,17 @@ const Upload = () => {
           });
 
           if (!res.ok) {
+            if (res.status === 401) {
+              setErrorMessage("Dein Zugangslink ist ungültig. Bitte fordere einen neuen über WhatsApp an.");
+              setStep("error");
+              return;
+            }
+            if (res.status === 402) {
+              setErrorMessage("Dein Guthaben ist aufgebraucht. Bitte upgrade deinen Plan.");
+              setStep("error");
+              return;
+            }
+            // 503 oder andere Fehler: Bild überspringen, Rest weiter
             console.error(`Bild ${i + 1} fehlgeschlagen: HTTP ${res.status}`);
             continue;
           }
@@ -151,7 +164,7 @@ const Upload = () => {
         onUploadMore={() => setStep("upload")}
       />
     );
-  if (step === "error") return <ErrorScreen onRetry={handleRetry} />;
+  if (step === "error") return <ErrorScreen onRetry={handleRetry} message={errorMessage || undefined} />;
 
   // step === "upload"
   return user ? (
