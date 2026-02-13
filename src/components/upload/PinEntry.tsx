@@ -11,8 +11,6 @@ interface UserData {
   plan: string;
   phone_number: string;
   is_subscriber: boolean;
-  human_edits: number;
-  human_edits_used: number;
 }
 
 interface PinEntryProps {
@@ -39,10 +37,10 @@ const PinEntry = ({ token, onSuccess }: PinEntryProps) => {
     try {
       const { data, error: dbError } = await supabase
         .from("users")
-        .select("Vorname, Nachname, credits, plan, phone_number, is_subscriber, human_edits, human_edits_used")
+        .select("Vorname, Nachname, credits, plan, phone_number, is_subscriber")
         .eq("upload_token", token)
         .eq("upload_pin", pin)
-        .maybeSingle();
+        .single();
 
       if (dbError || !data) {
         const newAttempts = attempts + 1;
