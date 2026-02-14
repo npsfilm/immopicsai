@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navLinks = [
   { label: "So funktioniert's", href: "#how-it-works" },
@@ -14,6 +14,7 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -67,7 +68,7 @@ const Navigation = () => {
             )
           )}
           <button
-            onClick={() => handleClick("#register")}
+            onClick={() => { setMenuOpen(false); navigate("/registrieren"); }}
             className="bg-accent text-accent-foreground px-5 py-2.5 rounded-lg text-sm font-semibold hover:brightness-110 transition-all"
           >
             Kostenlos starten
@@ -108,7 +109,7 @@ const Navigation = () => {
             )
           )}
           <button
-            onClick={() => handleClick("#register")}
+            onClick={() => { setMenuOpen(false); navigate("/registrieren"); }}
             className="w-full bg-accent text-accent-foreground py-3 rounded-lg text-base font-semibold"
           >
             Kostenlos starten
