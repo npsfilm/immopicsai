@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 
-const plans = [
+export interface PlanInfo {
+  id: string;
+  name: string;
+  monthlyPrice: number;
+  yearlyPrice: number;
+  desc: string;
+  features: string[];
+  cta: string;
+  popular: boolean;
+}
+
+export const plans: PlanInfo[] = [
   {
     id: "free",
     name: "Free",
@@ -44,11 +55,21 @@ const plans = [
   },
 ];
 
-const Pricing = () => {
+interface PricingProps {
+  onSelectPlan?: (planId: string, yearly: boolean) => void;
+}
+
+const Pricing = ({ onSelectPlan }: PricingProps) => {
   const [yearly, setYearly] = useState(false);
 
-  const scrollToRegister = () =>
-    document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
+  const handlePlanSelect = (planId: string) => {
+    if (onSelectPlan) {
+      onSelectPlan(planId, yearly);
+    } else {
+      // Fallback: navigate to homepage with plan in hash
+      window.location.href = `/#register?plan=${planId}&yearly=${yearly}`;
+    }
+  };
 
   return (
     <section id="pricing" className="py-20 bg-cream">
@@ -113,7 +134,7 @@ const Pricing = () => {
                 ))}
               </ul>
               <button
-                onClick={scrollToRegister}
+                onClick={() => handlePlanSelect(plan.id)}
                 className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
                   plan.popular
                     ? "bg-accent text-accent-foreground hover:brightness-110 shadow-md shadow-accent/25"
@@ -128,7 +149,7 @@ const Pricing = () => {
 
         <div className="max-w-2xl mx-auto mt-10 bg-card border border-border rounded-xl p-5 text-center">
           <p className="text-sm text-muted-foreground">
-            <strong className="text-primary">Was sind Profi-Bearbeitungen?</strong> Komplexe Aufgaben wie Virtual Staging oder aufwändige Retuschen, 
+            <strong className="text-primary">Was sind Profi-Bearbeitungen?</strong> Komplexe Aufgaben wie Virtual Staging oder aufwändige Retuschen,
             die über einfache Optimierungen hinausgehen. Standard-Bearbeitungen (Helligkeit, Kontrast, Himmel) sind immer inklusive.
           </p>
         </div>
