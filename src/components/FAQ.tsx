@@ -3,15 +3,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 const faqs = [
   {
     q: "Wie funktioniert ImmoPics.ai?",
-    a: 'Schick ein Foto per WhatsApp an unsere Nummer und schreib dazu was du willst – z.B. „Raum leer machen" oder „Möbel modern einrichten". Lumi, unsere KI, bearbeitet das Bild und schickt dir das Ergebnis innerhalb von Sekunden zurück.',
+    a: 'Schick ein Foto per WhatsApp an unsere Nummer und schreib dazu was du willst – z.B. „Raum leer machen" oder „Möbel modern einrichten". Pixi, unsere KI, bearbeitet das Bild und schickt dir das Ergebnis innerhalb von Sekunden zurück.',
   },
   {
-    q: "Wer ist Lumi?",
-    a: "Lumi ist unser KI-Assistent. Du schreibst Lumi per WhatsApp wie einem Kollegen – Foto schicken, sagen was du willst, Ergebnis bekommen. Kein Login, keine App, keine Einarbeitungszeit.",
+    q: "Wer ist Pixi?",
+    a: "Pixi ist unser KI-Assistent. Du schreibst Pixi per WhatsApp wie einem Kollegen – Foto schicken, sagen was du willst, Ergebnis bekommen. Kein Login, keine App, keine Einarbeitungszeit.",
   },
   {
     q: "Was kostet ein einzelnes Bild?",
-    a: "Ab 0,70€ pro Bild mit einem Top-Up-Paket. Im Basic-Plan zahlst du effektiv 0,93€ pro Bild, im Pro-Plan 0,98€. Zum Testen bekommst du 5 Bilder komplett kostenlos.",
+    a: "Ab 0,70€ pro Bild mit einem Top-Up-Paket. Im Basic-Plan zahlst du effektiv 0,93€ pro Bild, im Pro-Plan 0,98€. Zum Testen bekommst du 3 Bilder komplett kostenlos.",
   },
   {
     q: "Was ist ein Profi-Edit?",
@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     q: "Kann ich kostenlos testen?",
-    a: "Ja! Du bekommst 5 KI-Bildbearbeitungen kostenlos, ohne Kreditkarte. Einfach registrieren, Foto schicken, fertig.",
+    a: "Ja! Du bekommst 3 KI-Bildbearbeitungen kostenlos, ohne Kreditkarte. Einfach registrieren, Foto schicken, fertig.",
   },
   {
     q: "Brauche ich eine App?",
@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: "Was ist der Unterschied zwischen KI-Bearbeitung und Profi-Edit?",
-    a: "Die KI-Bearbeitung durch Lumi dauert Sekunden und ist perfekt für Standard-Aufgaben: Räume leeren, Möbel staging, Himmel tauschen, HDR. Profi-Edits werden von echten Bildbearbeitern durchgeführt – ideal für komplexe Aufträge, die präzise Handarbeit erfordern. Lieferzeit: 24–48h.",
+    a: "Die KI-Bearbeitung durch Pixi dauert Sekunden und ist perfekt für Standard-Aufgaben: Räume leeren, Möbel staging, Himmel tauschen, HDR. Profi-Edits werden von echten Bildbearbeitern durchgeführt – ideal für komplexe Aufträge, die präzise Handarbeit erfordern. Lieferzeit: 24–48h.",
   },
   {
     q: "Kann ich meinen Plan jederzeit wechseln?",
@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     q: "Was passiert wenn ich nicht zufrieden bin?",
-    a: "Du bekommst 2 kostenlose Nachbesserungen pro Bild. Beschreib einfach was anders sein soll und Lumi versucht es nochmal. Wenn die KI nicht weiterkommt, kannst du das Bild an einen Profi-Editor übergeben.",
+    a: "Du bekommst 2 kostenlose Nachbesserungen pro Bild. Beschreib einfach was anders sein soll und Pixi versucht es nochmal. Wenn die KI nicht weiterkommt, kannst du das Bild an einen Profi-Editor übergeben.",
   },
   {
     q: "Welche Zahlungsmethoden werden akzeptiert?",

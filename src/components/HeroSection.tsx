@@ -17,7 +17,7 @@ const HeroSection = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
           </span>
-          5 Bilder kostenlos testen
+          3 Bilder kostenlos testen
         </div>
 
         <h1 className="font-grotesk text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-tight max-w-4xl mx-auto mb-6 lg:mb-8 animate-fade-up [animation-delay:100ms]">
@@ -25,7 +25,7 @@ const HeroSection = () => {
         </h1>
 
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 lg:mb-14 animate-fade-up [animation-delay:200ms]">
-          Räume leeren, Möbel staging, Himmel tauschen – schick ein Foto, Lumi erledigt den Rest. KI-Bildbearbeitung ab 0,70€ pro Bild.
+          Räume leeren, Möbel staging, Himmel tauschen – schick ein Foto, Pixi erledigt den Rest. KI-Bildbearbeitung ab 0,70€ pro Bild.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:300ms]">
@@ -33,7 +33,7 @@ const HeroSection = () => {
             to="/registrieren"
             className="bg-accent text-accent-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/25"
           >
-            Kostenlos testen – 5 Bilder gratis
+            Kostenlos testen – 3 Bilder gratis
           </Link>
           <button
             onClick={() => scrollTo("#how-it-works")}
