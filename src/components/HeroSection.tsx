@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HeroSection = () => {
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
@@ -27,12 +29,12 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:300ms]">
-          <button
-            onClick={() => scrollTo("#register")}
+          <Link
+            to="/registrieren"
             className="bg-accent text-accent-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/25"
           >
             Kostenlos testen – 5 Bilder gratis
-          </button>
+          </Link>
           <button
             onClick={() => scrollTo("#how-it-works")}
             className="border-2 border-primary/20 text-primary px-8 py-4 rounded-xl text-lg font-semibold hover:bg-primary/5 transition-all"

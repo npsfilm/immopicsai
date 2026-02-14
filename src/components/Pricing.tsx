@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type BillingCycle = "monthly" | "quarterly" | "yearly";
 
@@ -118,9 +119,7 @@ function getDisplayPrice(plan: Plan, billing: BillingCycle): { price: string; or
 
 const Pricing = () => {
   const [billing, setBilling] = useState<BillingCycle>("monthly");
-
-  const scrollToRegister = () =>
-    document.querySelector("#register")?.scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
 
   return (
     <section id="pricing" className="py-20 bg-cream">
@@ -210,7 +209,7 @@ const Pricing = () => {
                 </ul>
 
                 <button
-                  onClick={scrollToRegister}
+                  onClick={() => navigate(`/registrieren?plan=${plan.id}`)}
                   className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
                     plan.popular
                       ? "bg-accent text-accent-foreground hover:brightness-110 shadow-md shadow-accent/25"
