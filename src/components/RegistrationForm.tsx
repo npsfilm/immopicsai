@@ -9,7 +9,7 @@ const RegistrationForm = () => {
           Jetzt kostenlos registrieren
         </h2>
         <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">
-          5 Bilder kostenlos bearbeiten – keine Kreditkarte nötig. Starten Sie
+          3 Bilder kostenlos bearbeiten – keine Kreditkarte nötig. Starten Sie
           in wenigen Sekunden per WhatsApp.
         </p>
 

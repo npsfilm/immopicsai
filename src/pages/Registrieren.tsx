@@ -45,7 +45,7 @@ const plans: PlanInfo[] = [
     pricing: { monthly: 0, quarterly: 0, yearly: 0 },
     desc: "Zum Ausprobieren",
     features: [
-      "5 KI-Bilder einmalig",
+      "3 KI-Bilder einmalig",
       "1K Auflösung",
       "Keine Kreditkarte nötig",
     ],
@@ -254,7 +254,7 @@ const Registrieren = () => {
     );
 
     try {
-      await fetch(WEBHOOK_URL, {
+      const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -266,6 +266,14 @@ const Registrieren = () => {
           billing,
         }),
       });
+
+      const data = await response.json();
+
+      if (data.checkoutUrl) {
+        // Redirect to Stripe Checkout – keep loading state active
+        window.location.href = data.checkoutUrl;
+        return;
+      }
     } catch {
       // webhook may not be configured yet – still show success
     }
@@ -542,8 +550,8 @@ const Registrieren = () => {
             </h2>
             <p className="text-muted-foreground text-sm mb-8">
               {activePlan.requiresPayment
-                ? "Registrieren Sie sich – den Zahlungslink erhalten Sie anschließend per E-Mail."
-                : "5 Bilder kostenlos bearbeiten – keine Kreditkarte nötig."}
+                ? "Registrieren Sie sich – Sie werden anschließend zur Zahlung weitergeleitet."
+                : "3 Bilder kostenlos bearbeiten – keine Kreditkarte nötig."}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -682,9 +690,9 @@ const Registrieren = () => {
               >
                 <MessageCircle className="w-5 h-5" />
                 {loading
-                  ? "Wird gesendet ..."
+                  ? activePlan.requiresPayment ? "Weiterleitung zur Zahlung ..." : "Wird gesendet ..."
                   : activePlan.requiresPayment
-                  ? `${activePlan.name}-Plan starten per WhatsApp`
+                  ? `${activePlan.name}-Plan starten`
                   : "Kostenlos starten per WhatsApp"}
               </button>
 
@@ -694,7 +702,7 @@ const Registrieren = () => {
                   {
                     icon: CreditCard,
                     label: activePlan.requiresPayment
-                      ? "Zahlungslink per E-Mail"
+                      ? "Sichere Zahlung via Stripe"
                       : "Keine Kreditkarte",
                   },
                   { icon: Zap, label: "Sofort per WhatsApp" },
@@ -745,10 +753,9 @@ const Registrieren = () => {
           mit dem &ldquo;Loslegen&rdquo;-Button.
         </p>
 
-        {activePlan.requiresPayment && (
+        {!activePlan.requiresPayment && (
           <p className="text-muted-foreground text-sm mt-4 bg-muted/50 rounded-lg p-3">
-            Für den <strong>{activePlan.name}</strong>-Plan erhalten Sie im
-            Anschluss einen Zahlungslink per E-Mail.
+            Sie haben <strong>3 kostenlose Bearbeitungen</strong> erhalten. Schicken Sie einfach ein Foto per WhatsApp!
           </p>
         )}
 

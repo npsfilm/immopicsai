@@ -91,6 +91,7 @@ export type Database = {
           phone_number: string
           plan: string | null
           pro_hint_shown: boolean | null
+          redo_count: number | null
           role: string | null
           state: string | null
           stripe_customer_id: string | null
@@ -114,6 +115,7 @@ export type Database = {
           phone_number: string
           plan?: string | null
           pro_hint_shown?: boolean | null
+          redo_count?: number | null
           role?: string | null
           state?: string | null
           stripe_customer_id?: string | null
@@ -137,6 +139,7 @@ export type Database = {
           phone_number?: string
           plan?: string | null
           pro_hint_shown?: boolean | null
+          redo_count?: number | null
           role?: string | null
           state?: string | null
           stripe_customer_id?: string | null

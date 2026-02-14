@@ -8,7 +8,7 @@ const FinalCTA = () => {
           Bereit, deine Immobilienfotos auf das nächste Level zu bringen?
         </h2>
         <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-          Starte jetzt mit 5 kostenlosen Bearbeitungen. Keine Kreditkarte, kein Vertrag.
+          Starte jetzt mit 3 kostenlosen Bearbeitungen. Keine Kreditkarte, kein Vertrag.
         </p>
         <Link
           to="/registrieren"

@@ -28,7 +28,7 @@ const plans: Plan[] = [
     pricing: { monthly: 0, quarterly: 0, yearly: 0 },
     desc: "Zum Ausprobieren",
     features: [
-      "5 KI-Bilder einmalig",
+      "3 KI-Bilder einmalig",
       "1K Auflösung",
       "Keine Kreditkarte nötig",
       "Ideal zum Ausprobieren",
@@ -128,7 +128,7 @@ const Pricing = () => {
           Pläne für jedes Maklerbüro
         </h2>
         <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
-          Starte kostenlos mit 5 Bildern. Alle Preise netto zzgl. MwSt.
+          Starte kostenlos mit 3 Bildern. Alle Preise netto zzgl. MwSt.
         </p>
 
         {/* Billing Toggle */}
