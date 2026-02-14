@@ -209,7 +209,7 @@ const Pricing = () => {
                 </ul>
 
                 <button
-                  onClick={() => navigate(`/registrieren?plan=${plan.id}`)}
+                  onClick={() => navigate(`/registrieren?plan=${plan.id}&billing=${billing}`)}
                   className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
                     plan.popular
                       ? "bg-accent text-accent-foreground hover:brightness-110 shadow-md shadow-accent/25"
