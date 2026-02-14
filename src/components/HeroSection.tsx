@@ -19,11 +19,11 @@ const HeroSection = () => {
         </div>
 
         <h1 className="font-grotesk text-4xl sm:text-5xl lg:text-7xl font-bold text-primary leading-tight max-w-4xl mx-auto mb-6 lg:mb-8 animate-fade-up [animation-delay:100ms]">
-          Professionelle Exposé-Fotos in Sekunden – per WhatsApp
+          Immobilienfotos bearbeiten – per WhatsApp.
         </h1>
 
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 lg:mb-14 animate-fade-up [animation-delay:200ms]">
-          Senden Sie Ihr Immobilienfoto per WhatsApp und erhalten Sie in Sekunden ein professionell bearbeitetes Bild zurück. KI-gestützt, schnell, einfach.
+          Räume leeren, Möbel staging, Himmel tauschen – schick ein Foto, Lumi erledigt den Rest. KI-Bildbearbeitung ab 0,70€ pro Bild.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up [animation-delay:300ms]">
@@ -31,7 +31,7 @@ const HeroSection = () => {
             onClick={() => scrollTo("#register")}
             className="bg-accent text-accent-foreground px-8 py-4 rounded-xl text-lg font-semibold hover:brightness-110 transition-all shadow-lg shadow-accent/25"
           >
-            Jetzt kostenlos starten
+            Kostenlos testen – 5 Bilder gratis
           </button>
           <button
             onClick={() => scrollTo("#how-it-works")}

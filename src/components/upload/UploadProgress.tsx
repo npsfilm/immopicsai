@@ -23,7 +23,7 @@ const UploadProgress = ({ current, total }: UploadProgressProps) => {
             <h2 className="text-lg font-semibold font-grotesk text-foreground">
               Bild {current} von {total} wird bearbeitet…
             </h2>
-            <p className="text-sm text-muted-foreground mt-1">Pixi arbeitet…</p>
+            <p className="text-sm text-muted-foreground mt-1">Lumi arbeitet…</p>
           </div>
           <Progress value={pct} className="h-2 rounded-full" />
           <p className="text-xs text-muted-foreground">{pct}%</p>

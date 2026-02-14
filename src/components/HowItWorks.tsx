@@ -1,7 +1,7 @@
 const steps = [
-  { num: "1", title: "Registrieren", desc: "Kostenlos anmelden und WhatsApp-Nummer verknüpfen." },
-  { num: "2", title: "Foto senden", desc: "Immobilienfoto einfach per WhatsApp an ImmoPics.ai senden." },
-  { num: "3", title: "Ergebnis erhalten", desc: "Professionell bearbeitetes Bild in Sekunden zurück." },
+  { num: "1", emoji: "📸", title: "Foto schicken", desc: "Schick dein Immobilienfoto per WhatsApp an Lumi und beschreib kurz was du willst." },
+  { num: "2", emoji: "🤖", title: "Lumi bearbeitet", desc: "Unsere KI bearbeitet dein Bild in Sekunden – leer räumen, staging, HDR, Himmel und mehr." },
+  { num: "3", emoji: "✅", title: "Ergebnis erhalten", desc: "Du bekommst dein fertig bearbeitetes Bild direkt per WhatsApp zurück. Fertig!" },
 ];
 
 const HowItWorks = () => (
@@ -17,8 +17,8 @@ const HowItWorks = () => (
       <div className="grid md:grid-cols-3 gap-8">
         {steps.map((s) => (
           <div key={s.num} className="text-center">
-            <div className="w-14 h-14 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-5 font-grotesk">
-              {s.num}
+            <div className="w-14 h-14 bg-primary text-primary-foreground rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-5 font-grotesk">
+              {s.emoji}
             </div>
             <h3 className="font-grotesk text-xl font-semibold text-primary mb-2">{s.title}</h3>
             <p className="text-muted-foreground text-sm">{s.desc}</p>

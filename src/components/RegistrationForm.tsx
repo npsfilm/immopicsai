@@ -76,7 +76,7 @@ const RegistrationForm = () => {
           lastName: result.data.lastName,
           email: result.data.email,
           phone: normalized,
-          plan: "free",
+          plan: "test",
         }),
       });
     } catch {

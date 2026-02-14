@@ -1,14 +1,58 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
-  { q: "Wie funktioniert ImmoPics.ai?", a: "Senden Sie einfach ein Foto Ihrer Immobilie per WhatsApp an uns. Unsere KI bearbeitet das Bild automatisch und sendet Ihnen das Ergebnis in wenigen Sekunden zurück." },
-  { q: "Welche Bearbeitungen sind möglich?", a: "Virtual Staging, Himmeloptimierung, Objektentfernung, Helligkeit & Kontrast, HDR-Effekte und vieles mehr." },
-  { q: "Wie lange dauert eine Bearbeitung?", a: "Standard-Bearbeitungen wie Himmeloptimierung dauern nur wenige Sekunden. Komplexere Aufgaben wie Virtual Staging können bis zu 2 Minuten dauern." },
-  { q: "Sind meine Daten sicher?", a: "Ja, alle Daten werden verschlüsselt übertragen und nach der Bearbeitung automatisch gelöscht. Wir sind vollständig DSGVO-konform." },
-  { q: "Kann ich ImmoPics.ai kostenlos testen?", a: "Ja! Jeder neue Nutzer erhält 5 kostenlose Bildbearbeitungen zum Testen – ohne Kreditkarte." },
-  { q: "Welche Bildformate werden unterstützt?", a: "Alle gängigen Formate: JPG, PNG, HEIC. Einfach per WhatsApp senden – wir kümmern uns um den Rest." },
-  { q: "Kann ich Korrekturen anfordern?", a: "Selbstverständlich! Bei Pro- und Premium-Plänen können Sie unbegrenzt Korrekturen anfordern, bis das Ergebnis perfekt ist." },
-  { q: "Wie kündige ich mein Abo?", a: "Sie können Ihr Abonnement jederzeit kündigen – einfach per WhatsApp-Nachricht oder in Ihrem Account. Keine versteckten Kosten." },
+  {
+    q: "Wie funktioniert ImmoPics.ai?",
+    a: 'Schick ein Foto per WhatsApp an unsere Nummer und schreib dazu was du willst – z.B. „Raum leer machen" oder „Möbel modern einrichten". Lumi, unsere KI, bearbeitet das Bild und schickt dir das Ergebnis innerhalb von Sekunden zurück.',
+  },
+  {
+    q: "Wer ist Lumi?",
+    a: "Lumi ist unser KI-Assistent. Du schreibst Lumi per WhatsApp wie einem Kollegen – Foto schicken, sagen was du willst, Ergebnis bekommen. Kein Login, keine App, keine Einarbeitungszeit.",
+  },
+  {
+    q: "Was kostet ein einzelnes Bild?",
+    a: "Ab 0,70€ pro Bild mit einem Top-Up-Paket. Im Basic-Plan zahlst du effektiv 0,93€ pro Bild, im Pro-Plan 0,98€. Zum Testen bekommst du 5 Bilder komplett kostenlos.",
+  },
+  {
+    q: "Was ist ein Profi-Edit?",
+    a: "Wenn die KI nicht das gewünschte Ergebnis liefert, kannst du das Bild an einen echten Bildbearbeiter übergeben. Der bearbeitet es manuell und liefert innerhalb von 24–48 Stunden. Profi-Edits sind im Pro- und Team-Plan inklusive oder einzeln als Top-Up buchbar.",
+  },
+  {
+    q: "Kann ich kostenlos testen?",
+    a: "Ja! Du bekommst 5 KI-Bildbearbeitungen kostenlos, ohne Kreditkarte. Einfach registrieren, Foto schicken, fertig.",
+  },
+  {
+    q: "Brauche ich eine App?",
+    a: "Nein. ImmoPics.ai funktioniert komplett über WhatsApp. Einfach Foto schicken – kein Download, kein Login, kein Einlernen nötig.",
+  },
+  {
+    q: "Was passiert wenn meine Credits aufgebraucht sind?",
+    a: "Du kannst jederzeit Extra-Credits als Top-Up nachkaufen, ohne deinen Plan zu wechseln. Oder du upgradest auf einen höheren Plan für mehr monatliche Credits.",
+  },
+  {
+    q: "Was ist der Unterschied zwischen KI-Bearbeitung und Profi-Edit?",
+    a: "Die KI-Bearbeitung durch Lumi dauert Sekunden und ist perfekt für Standard-Aufgaben: Räume leeren, Möbel staging, Himmel tauschen, HDR. Profi-Edits werden von echten Bildbearbeitern durchgeführt – ideal für komplexe Aufträge, die präzise Handarbeit erfordern. Lieferzeit: 24–48h.",
+  },
+  {
+    q: "Kann ich meinen Plan jederzeit wechseln?",
+    a: "Ja. Du kannst jederzeit upgraden oder downgraden. Beim Upgrade wird der neue Plan sofort aktiv, beim Downgrade zum Ende der aktuellen Abrechnungsperiode.",
+  },
+  {
+    q: "Sind die Bilder kommerziell nutzbar?",
+    a: "Ja, alle bearbeiteten Bilder darfst du uneingeschränkt kommerziell nutzen – für Exposés, Immobilienportale, Social Media und Printmaterialien.",
+  },
+  {
+    q: "Ist ImmoPics.ai DSGVO-konform?",
+    a: "Ja. Unsere Server stehen in der EU, wir haben Auftragsverarbeitungsverträge mit allen Dienstleistern, und deine Bilder werden nach 90 Tagen automatisch gelöscht. Details findest du in unserer Datenschutzerklärung.",
+  },
+  {
+    q: "Was passiert wenn ich nicht zufrieden bin?",
+    a: "Du bekommst 2 kostenlose Nachbesserungen pro Bild. Beschreib einfach was anders sein soll und Lumi versucht es nochmal. Wenn die KI nicht weiterkommt, kannst du das Bild an einen Profi-Editor übergeben.",
+  },
+  {
+    q: "Welche Zahlungsmethoden werden akzeptiert?",
+    a: "Wir akzeptieren alle gängigen Kreditkarten, SEPA-Lastschrift, Apple Pay und Google Pay über unseren Zahlungspartner Stripe.",
+  },
 ];
 
 const FAQ = () => (
