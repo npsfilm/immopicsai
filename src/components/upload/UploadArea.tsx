@@ -18,8 +18,8 @@ interface FileWithPreview {
 }
 
 const PLAN_CONFIG: Record<string, { res: string; max: number }> = {
-  free: { res: "1K", max: 1 },
-  starter: { res: "2K", max: 5 },
+  test: { res: "1K", max: 1 },
+  basic: { res: "2K", max: 3 },
   pro: { res: "4K", max: 5 },
   team: { res: "4K", max: 20 },
 };
@@ -39,7 +39,7 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
   const [globalInstruction, setGlobalInstruction] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const config = PLAN_CONFIG[user.plan] || PLAN_CONFIG.free;
+  const config = PLAN_CONFIG[user.plan] || PLAN_CONFIG.test;
   const maxReached = files.length >= config.max;
   const hasInstruction = instructionMode === "global"
     ? globalInstruction.trim().length > 0
@@ -273,7 +273,7 @@ const UploadArea = ({ user, onSubmit, loading }: UploadAreaProps) => {
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  Pixi arbeitet…
+                  Lumi arbeitet…
                 </>
               ) : !hasEnoughCredits ? (
                 `Nicht genug Credits (${user.credits} übrig)`

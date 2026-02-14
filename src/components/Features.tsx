@@ -1,23 +1,25 @@
 const features = [
-  { emoji: "🛋️", title: "Virtual Staging", desc: "Möblieren Sie leere Räume virtuell mit KI." },
-  { emoji: "🌤️", title: "Himmel-Optimierung", desc: "Perfekter blauer Himmel – bei jedem Wetter." },
-  { emoji: "✨", title: "Objekte entfernen", desc: "Störende Gegenstände einfach verschwinden lassen." },
-  { emoji: "⚡", title: "Sofort-Ergebnisse", desc: "Bearbeitete Bilder in wenigen Sekunden." },
-  { emoji: "🖼️", title: "HD-Qualität", desc: "Professionelle Auflösung für jedes Exposé." },
-  { emoji: "💬", title: "WhatsApp-basiert", desc: "Kein Upload-Portal – einfach per Chat senden." },
+  { emoji: "🏠", title: "Virtual Staging", desc: "Leere Räume professionell einrichten." },
+  { emoji: "🧹", title: "Entrümpeln", desc: "Möbel und Unordnung entfernen." },
+  { emoji: "🌤️", title: "Himmel tauschen", desc: "Grauer Himmel wird blau." },
+  { emoji: "🎨", title: "Wände streichen", desc: "Farben digital ändern." },
+  { emoji: "💡", title: "HDR & Aufhellen", desc: "Dunkle Räume zum Strahlen bringen." },
+  { emoji: "🌿", title: "Garten verschönern", desc: "Rasen grün, Hecken gepflegt." },
+  { emoji: "🖼️", title: "Profi-Editor", desc: "Echte Bildbearbeiter für komplexe Aufträge." },
+  { emoji: "📱", title: "Per WhatsApp", desc: "Kein Login, keine App, einfach Foto schicken." },
 ];
 
 const Features = () => (
   <section id="features" className="py-20">
     <div className="container mx-auto">
       <h2 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-4">
-        Alles, was Sie brauchen
+        Alles was Makler brauchen
       </h2>
       <p className="text-muted-foreground text-center mb-14 max-w-xl mx-auto">
         Unsere KI bietet alle wichtigen Bearbeitungsfunktionen für Immobilienfotos.
       </p>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {features.map((f) => (
           <div
             key={f.title}
