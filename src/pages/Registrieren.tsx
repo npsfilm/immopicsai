@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { Check, MessageCircle, Shield, CreditCard, Zap } from "lucide-react";
+import {
+  Check,
+  MessageCircle,
+  Shield,
+  CreditCard,
+  Zap,
+  ArrowLeft,
+  Sparkles,
+  Users,
+  Star,
+  Gift,
+} from "lucide-react";
 import { z } from "zod";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -8,48 +19,60 @@ import Footer from "@/components/Footer";
 const WEBHOOK_URL =
   "https://immoonpoint.app.n8n.cloud/webhook/f5b1617b-57d6-407c-8f78-a8e828684f39";
 
-/* ── plan data ─────────────────────────────────────────────── */
+/* ── types ────────────────────────────────────────────────── */
+
+type BillingCycle = "monthly" | "quarterly" | "yearly";
+type Step = "plan" | "form" | "success";
 
 interface PlanInfo {
   id: string;
   name: string;
-  price: string; // display string
+  pricing: { monthly: number; quarterly: number; yearly: number };
   desc: string;
   features: string[];
+  cta: string;
+  popular: boolean;
+  badge?: string;
   requiresPayment: boolean;
 }
+
+/* ── plan data ────────────────────────────────────────────── */
 
 const plans: PlanInfo[] = [
   {
     id: "test",
-    name: "Kostenlos testen",
-    price: "0 €",
-    desc: "5 KI-Bilder einmalig, keine Kreditkarte nötig",
+    name: "Testen",
+    pricing: { monthly: 0, quarterly: 0, yearly: 0 },
+    desc: "Zum Ausprobieren",
     features: [
       "5 KI-Bilder einmalig",
       "1K Auflösung",
       "Keine Kreditkarte nötig",
     ],
+    cta: "Kostenlos testen",
+    popular: false,
     requiresPayment: false,
   },
   {
     id: "basic",
     name: "Basic",
-    price: "ab 14 € / Monat",
-    desc: "15 KI-Bilder / Monat, 2K Auflösung (HD)",
+    pricing: { monthly: 14, quarterly: 38, yearly: 140 },
+    desc: "Perfekt zum Einstieg",
     features: [
       "15 KI-Bilder / Monat",
       "2K Auflösung (HD)",
       "Batch-Upload (3 Bilder)",
       "Credits nachkaufen möglich",
     ],
+    cta: "Basic starten",
+    popular: false,
     requiresPayment: true,
   },
   {
     id: "pro",
     name: "Pro",
-    price: "ab 49 € / Monat",
-    desc: "50 KI-Bilder / Monat, 4K Auflösung (Ultra HD)",
+    pricing: { monthly: 49, quarterly: 132, yearly: 490 },
+    desc: "Für aktive Makler",
     features: [
       "50 KI-Bilder / Monat",
       "7 Profi-Edits inklusive",
@@ -57,13 +80,16 @@ const plans: PlanInfo[] = [
       "Batch-Upload (5 Bilder)",
       "Priorisierte Bearbeitung",
     ],
+    cta: "Pro starten",
+    popular: true,
+    badge: "Beliebtester Plan",
     requiresPayment: true,
   },
   {
     id: "team",
     name: "Team",
-    price: "ab 99 € / Monat",
-    desc: "30 KI-Bilder / Nutzer, 4 Nutzer inklusive",
+    pricing: { monthly: 99, quarterly: 267, yearly: 990 },
+    desc: "Für Maklerbüros & Teams",
     features: [
       "30 KI-Bilder / Nutzer",
       "4 Nutzer inklusive",
@@ -71,11 +97,53 @@ const plans: PlanInfo[] = [
       "4K Auflösung (Ultra HD)",
       "Batch-Upload (20 Bilder)",
     ],
+    cta: "Team starten",
+    popular: false,
     requiresPayment: true,
   },
 ];
 
-/* ── form helpers ──────────────────────────────────────────── */
+const billingOptions: { key: BillingCycle; label: string; badge?: string }[] = [
+  { key: "monthly", label: "Monatlich" },
+  { key: "quarterly", label: "Quartalsweise", badge: "10 % sparen" },
+  { key: "yearly", label: "Jährlich", badge: "2 Monate gratis" },
+];
+
+/* ── pricing helper ───────────────────────────────────────── */
+
+function getDisplayPrice(
+  plan: PlanInfo,
+  billing: BillingCycle
+): { price: string; original?: string; savingBadge?: string } {
+  if (plan.id === "test") return { price: "0" };
+
+  const monthly = plan.pricing.monthly;
+  if (billing === "monthly") return { price: monthly.toFixed(0) };
+
+  if (billing === "quarterly") {
+    const effective = plan.pricing.quarterly / 3;
+    return {
+      price:
+        effective % 1 === 0
+          ? effective.toFixed(0)
+          : effective.toFixed(2).replace(".", ","),
+      original: monthly.toFixed(0),
+      savingBadge: "-10 %",
+    };
+  }
+
+  const effective = plan.pricing.yearly / 12;
+  return {
+    price:
+      effective % 1 === 0
+        ? effective.toFixed(0)
+        : effective.toFixed(2).replace(".", ","),
+    original: monthly.toFixed(0),
+    savingBadge: "2 Mon. gratis",
+  };
+}
+
+/* ── form helpers ─────────────────────────────────────────── */
 
 const COUNTRY_CODES = [
   { code: "+49", label: "DE +49" },
@@ -111,16 +179,33 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const inputClass =
-  "w-full bg-white border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent text-sm";
+/* ── plan icons ───────────────────────────────────────────── */
 
-/* ── page component ────────────────────────────────────────── */
+const planIcons: Record<string, typeof Sparkles> = {
+  test: Gift,
+  basic: Star,
+  pro: Sparkles,
+  team: Users,
+};
+
+/* ── page component ───────────────────────────────────────── */
 
 const Registrieren = () => {
   const [searchParams] = useSearchParams();
-  const planParam = searchParams.get("plan") || "test";
+  const planParam = searchParams.get("plan");
+  const billingParam = searchParams.get("billing") as BillingCycle | null;
+
+  const hasValidPlan = !!planParam && plans.some((p) => p.id === planParam);
+
+  const [step, setStep] = useState<Step>(hasValidPlan ? "form" : "plan");
   const [selectedPlan, setSelectedPlan] = useState(
-    plans.find((p) => p.id === planParam)?.id || "test"
+    hasValidPlan ? planParam! : "pro"
+  );
+  const [billing, setBilling] = useState<BillingCycle>(
+    billingParam &&
+      (["monthly", "quarterly", "yearly"] as string[]).includes(billingParam)
+      ? billingParam
+      : "monthly"
   );
 
   const [form, setForm] = useState({
@@ -131,13 +216,22 @@ const Registrieren = () => {
     countryCode: "+49",
     privacy: false,
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
-    {}
-  );
-  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof FormData, string>>
+  >({});
   const [loading, setLoading] = useState(false);
 
   const activePlan = plans.find((p) => p.id === selectedPlan)!;
+  const { price, original, savingBadge } = getDisplayPrice(activePlan, billing);
+  const PlanIcon = planIcons[activePlan.id] || Sparkles;
+
+  /* ── handlers ── */
+
+  const handleSelectPlan = (planId: string) => {
+    setSelectedPlan(planId);
+    setStep("form");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -169,150 +263,326 @@ const Registrieren = () => {
           email: result.data.email,
           phone: normalized,
           plan: selectedPlan,
+          billing,
         }),
       });
     } catch {
-      // Webhook might not be configured yet - still show success
+      // webhook may not be configured yet – still show success
     }
 
     setLoading(false);
-    setSubmitted(true);
+    setStep("success");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  /* ── success state ── */
-  if (submitted) {
-    return (
-      <main>
-        <Navigation />
-        <section className="min-h-screen flex items-center justify-center pt-24 pb-20 bg-cream">
-          <div className="max-w-md mx-auto text-center bg-card border border-border rounded-2xl p-10 shadow-lg">
-            <div className="text-5xl mb-4">🎉</div>
-            <h2 className="font-grotesk text-2xl font-bold text-primary mb-3">
-              Willkommen bei ImmoPics.ai!
-            </h2>
-            <p className="text-muted-foreground text-sm mb-2">
-              Schauen Sie jetzt in Ihr WhatsApp – Sie erhalten eine Nachricht
-              mit dem &ldquo;Loslegen&rdquo;-Button.
-            </p>
-            {activePlan.requiresPayment && (
-              <p className="text-muted-foreground text-sm mt-4">
-                Für den <strong>{activePlan.name}</strong>-Plan erhalten Sie im
-                Anschluss einen Zahlungslink per E-Mail.
-              </p>
-            )}
-            <p className="text-muted-foreground/60 text-xs mt-4">
-              Keine Nachricht erhalten? Bitte prüfen Sie Ihre Telefonnummer oder
-              kontaktieren Sie uns per WhatsApp.
-            </p>
+  /* ── step indicator ── */
+
+  const stepsMeta = [
+    { key: "plan", label: "Plan wählen" },
+    { key: "form", label: "Registrieren" },
+    { key: "success", label: "Loslegen" },
+  ];
+  const stepIndex = stepsMeta.findIndex((s) => s.key === step);
+
+  const StepIndicator = () => (
+    <div className="flex items-center justify-center gap-2 sm:gap-4 mb-12">
+      {stepsMeta.map((s, i) => (
+        <div key={s.key} className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                i < stepIndex
+                  ? "bg-accent text-accent-foreground"
+                  : i === stepIndex
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-border text-muted-foreground"
+              }`}
+            >
+              {i < stepIndex ? <Check className="w-4 h-4" /> : i + 1}
+            </div>
+            <span
+              className={`text-sm font-medium hidden sm:block ${
+                i <= stepIndex ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              {s.label}
+            </span>
           </div>
-        </section>
-        <Footer />
-      </main>
-    );
-  }
+          {i < stepsMeta.length - 1 && (
+            <div
+              className={`w-8 sm:w-16 h-0.5 ${
+                i < stepIndex ? "bg-accent" : "bg-border"
+              }`}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
 
-  /* ── form state ── */
-  return (
-    <main>
-      <Navigation />
-      <section className="pt-28 pb-20 bg-cream min-h-screen">
-        <div className="container mx-auto max-w-3xl px-4">
-          <h1 className="font-grotesk text-3xl sm:text-4xl font-bold text-primary text-center mb-3">
-            Registrieren & Plan wählen
-          </h1>
-          <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
-            Erstellen Sie Ihr Konto und wählen Sie den passenden Plan.
-          </p>
+  /* ─────────────────────────────────────────────────────────
+     STEP 1 — Plan Selection
+  ───────────────────────────────────────────────────────── */
 
-          {/* ── Plan selection ── */}
-          <div className="grid sm:grid-cols-2 gap-4 mb-10">
-            {plans.map((plan) => (
+  const PlanStep = () => (
+    <div className="animate-fade-in">
+      <h1 className="font-grotesk text-3xl sm:text-4xl lg:text-5xl font-bold text-primary text-center mb-3">
+        Wählen Sie Ihren Plan
+      </h1>
+      <p className="text-muted-foreground text-center mb-10 max-w-xl mx-auto">
+        Starten Sie kostenlos oder wählen Sie den Plan, der zu Ihrem
+        Maklerbüro passt. Alle Preise netto zzgl. MwSt.
+      </p>
+
+      {/* Billing Toggle */}
+      <div className="flex justify-center mb-10">
+        <div className="inline-flex bg-card border border-border rounded-2xl p-1 gap-1">
+          {billingOptions.map((opt) => (
+            <button
+              key={opt.key}
+              onClick={() => setBilling(opt.key)}
+              className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                billing === opt.key
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <span>{opt.label}</span>
+              {opt.badge && (
+                <span
+                  className={`block text-[10px] font-bold ${
+                    billing === opt.key
+                      ? "text-accent-foreground/80"
+                      : "text-accent"
+                  }`}
+                >
+                  {opt.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Plan Cards */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        {plans.map((plan) => {
+          const dp = getDisplayPrice(plan, billing);
+          const Icon = planIcons[plan.id] || Sparkles;
+
+          return (
+            <div
+              key={plan.id}
+              className={`relative bg-card rounded-2xl p-6 border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer group ${
+                plan.popular
+                  ? "border-accent shadow-lg scale-[1.02]"
+                  : "border-border hover:border-accent/40"
+              }`}
+              onClick={() => handleSelectPlan(plan.id)}
+            >
+              {plan.badge && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-xs font-bold px-4 py-1 rounded-full whitespace-nowrap">
+                  {plan.badge}
+                </span>
+              )}
+
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Icon className="w-4 h-4 text-accent" />
+                </div>
+                <h3 className="font-grotesk text-xl font-semibold text-primary uppercase tracking-wide">
+                  {plan.name}
+                </h3>
+              </div>
+              <p className="text-muted-foreground text-sm mb-4">{plan.desc}</p>
+
+              <div className="mb-6">
+                {dp.original && (
+                  <span className="text-muted-foreground text-lg line-through mr-2">
+                    {dp.original}&euro;
+                  </span>
+                )}
+                <span className="font-grotesk text-4xl font-bold text-primary">
+                  {dp.price}&euro;
+                </span>
+                <span className="text-muted-foreground text-sm"> / Monat</span>
+                {dp.savingBadge && (
+                  <span className="ml-2 bg-accent/10 text-accent text-xs font-bold px-2 py-0.5 rounded-full">
+                    {dp.savingBadge}
+                  </span>
+                )}
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((f) => (
+                  <li
+                    key={f}
+                    className="flex items-center gap-2 text-sm text-foreground"
+                  >
+                    <Check className="w-4 h-4 text-accent flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
               <button
-                key={plan.id}
-                type="button"
-                onClick={() => setSelectedPlan(plan.id)}
-                className={`text-left rounded-2xl border-2 p-5 transition-all ${
-                  selectedPlan === plan.id
-                    ? "border-accent bg-accent/5 shadow-md"
-                    : "border-border bg-card hover:border-accent/40"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSelectPlan(plan.id);
+                }}
+                className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
+                  plan.popular
+                    ? "bg-accent text-accent-foreground hover:brightness-110 shadow-md shadow-accent/25"
+                    : "bg-primary/10 text-primary hover:bg-primary/20 group-hover:bg-accent group-hover:text-accent-foreground"
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-grotesk text-lg font-semibold text-primary">
-                    {plan.name}
-                  </h3>
-                  <span
-                    className={`text-sm font-bold ${
-                      selectedPlan === plan.id
-                        ? "text-accent"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {plan.price}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-3">
-                  {plan.desc}
-                </p>
-                <ul className="space-y-1.5">
-                  {plan.features.map((f) => (
-                    <li
-                      key={f}
-                      className="flex items-center gap-2 text-xs text-foreground"
-                    >
-                      <Check className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
+                {plan.cta}
               </button>
-            ))}
-          </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 
-          {/* ── Registration form ── */}
-          <div className="bg-primary rounded-2xl p-8 sm:p-10">
-            <h2 className="font-grotesk text-xl font-bold text-primary-foreground text-center mb-2">
+  /* ─────────────────────────────────────────────────────────
+     STEP 2 — Registration Form
+  ───────────────────────────────────────────────────────── */
+
+  const FormStep = () => (
+    <div className="animate-fade-in">
+      {/* Back link */}
+      <div className="flex justify-center mb-8">
+        <button
+          onClick={() => setStep("plan")}
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Plan ändern
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-5 gap-8 max-w-5xl mx-auto">
+        {/* Left: Plan summary */}
+        <div className="lg:col-span-2">
+          <div className="bg-card rounded-2xl border-2 border-accent p-6 lg:sticky lg:top-28">
+            {activePlan.badge && (
+              <span className="inline-block bg-accent text-accent-foreground text-xs font-bold px-3 py-1 rounded-full mb-4">
+                {activePlan.badge}
+              </span>
+            )}
+
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                <PlanIcon className="w-5 h-5 text-accent" />
+              </div>
+              <h3 className="font-grotesk text-2xl font-bold text-primary">
+                {activePlan.name}
+              </h3>
+            </div>
+            <p className="text-muted-foreground text-sm mb-4">
+              {activePlan.desc}
+            </p>
+
+            <div className="mb-6">
+              {original && (
+                <span className="text-muted-foreground text-lg line-through mr-2">
+                  {original}&euro;
+                </span>
+              )}
+              <span className="font-grotesk text-4xl font-bold text-primary">
+                {price}&euro;
+              </span>
+              <span className="text-muted-foreground text-sm"> / Monat</span>
+              {savingBadge && (
+                <span className="ml-2 bg-accent/10 text-accent text-xs font-bold px-2 py-0.5 rounded-full">
+                  {savingBadge}
+                </span>
+              )}
+            </div>
+
+            {/* Billing toggle (compact) */}
+            <div className="flex bg-muted rounded-xl p-1 gap-1 mb-6">
+              {billingOptions.map((opt) => (
+                <button
+                  key={opt.key}
+                  onClick={() => setBilling(opt.key)}
+                  className={`flex-1 px-2 py-2 rounded-lg text-xs font-medium transition-all text-center ${
+                    billing === opt.key
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+
+            <ul className="space-y-3">
+              {activePlan.features.map((f) => (
+                <li
+                  key={f}
+                  className="flex items-center gap-2 text-sm text-foreground"
+                >
+                  <Check className="w-4 h-4 text-accent flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Right: Form */}
+        <div className="lg:col-span-3">
+          <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 shadow-sm">
+            <h2 className="font-grotesk text-2xl font-bold text-primary mb-2">
               {activePlan.requiresPayment
                 ? `${activePlan.name}-Plan starten`
                 : "Kostenlos registrieren"}
             </h2>
-            <p className="text-primary-foreground/70 text-center mb-8 text-sm">
+            <p className="text-muted-foreground text-sm mb-8">
               {activePlan.requiresPayment
                 ? "Registrieren Sie sich – den Zahlungslink erhalten Sie anschließend per E-Mail."
                 : "5 Bilder kostenlos bearbeiten – keine Kreditkarte nötig."}
             </p>
 
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">
+                    Vorname
+                  </label>
                   <input
                     type="text"
-                    placeholder="Vorname"
+                    placeholder="Max"
                     value={form.firstName}
                     onChange={(e) =>
                       setForm({ ...form, firstName: e.target.value })
                     }
-                    className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                    className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm transition-all"
                   />
                   {errors.firstName && (
-                    <p className="text-red-300 text-xs mt-1">
+                    <p className="text-destructive text-xs mt-1">
                       {errors.firstName}
                     </p>
                   )}
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">
+                    Nachname
+                  </label>
                   <input
                     type="text"
-                    placeholder="Nachname"
+                    placeholder="Mustermann"
                     value={form.lastName}
                     onChange={(e) =>
                       setForm({ ...form, lastName: e.target.value })
                     }
-                    className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                    className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm transition-all"
                   />
                   {errors.lastName && (
-                    <p className="text-red-300 text-xs mt-1">
+                    <p className="text-destructive text-xs mt-1">
                       {errors.lastName}
                     </p>
                   )}
@@ -321,52 +591,58 @@ const Registrieren = () => {
 
               {/* Email */}
               <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  E-Mail-Adresse
+                </label>
                 <input
                   type="email"
-                  placeholder="E-Mail-Adresse"
+                  placeholder="max@beispiel.de"
                   value={form.email}
                   onChange={(e) =>
                     setForm({ ...form, email: e.target.value })
                   }
-                  className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                  className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm transition-all"
                 />
                 {errors.email && (
-                  <p className="text-red-300 text-xs mt-1">{errors.email}</p>
+                  <p className="text-destructive text-xs mt-1">
+                    {errors.email}
+                  </p>
                 )}
               </div>
 
               {/* Phone */}
               <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  Telefonnummer (WhatsApp)
+                </label>
                 <div className="flex gap-2">
                   <select
                     value={form.countryCode}
                     onChange={(e) =>
                       setForm({ ...form, countryCode: e.target.value })
                     }
-                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-3 py-3 text-primary-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent appearance-none w-28 shrink-0"
+                    className="bg-background border border-border rounded-xl px-3 py-3 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent w-28 shrink-0 transition-all"
                   >
                     {COUNTRY_CODES.map((cc) => (
-                      <option
-                        key={cc.code}
-                        value={cc.code}
-                        className="text-foreground"
-                      >
+                      <option key={cc.code} value={cc.code}>
                         {cc.label}
                       </option>
                     ))}
                   </select>
                   <input
                     type="tel"
-                    placeholder="Telefonnummer"
+                    placeholder="123 4567890"
                     value={form.phone}
                     onChange={(e) =>
                       setForm({ ...form, phone: e.target.value })
                     }
-                    className="w-full flex-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3 text-primary-foreground placeholder:text-primary-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                    className="w-full flex-1 bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent text-sm transition-all"
                   />
                 </div>
                 {errors.phone && (
-                  <p className="text-red-300 text-xs mt-1">{errors.phone}</p>
+                  <p className="text-destructive text-xs mt-1">
+                    {errors.phone}
+                  </p>
                 )}
               </div>
 
@@ -378,28 +654,25 @@ const Registrieren = () => {
                   onChange={(e) =>
                     setForm({ ...form, privacy: e.target.checked })
                   }
-                  className="mt-0.5 w-4 h-4 rounded border-white/30 accent-accent"
+                  className="mt-0.5 w-4 h-4 rounded border-border accent-accent"
                 />
-                <span className="text-primary-foreground/70 text-xs leading-relaxed">
+                <span className="text-muted-foreground text-xs leading-relaxed">
                   Ich akzeptiere die{" "}
                   <Link
                     to="/datenschutz"
-                    className="underline hover:text-primary-foreground"
+                    className="underline hover:text-primary"
                   >
                     Datenschutzerklärung
                   </Link>{" "}
                   und{" "}
-                  <Link
-                    to="/agb"
-                    className="underline hover:text-primary-foreground"
-                  >
+                  <Link to="/agb" className="underline hover:text-primary">
                     AGB
                   </Link>
                   .
                 </span>
               </label>
               {errors.privacy && (
-                <p className="text-red-300 text-xs">{errors.privacy}</p>
+                <p className="text-destructive text-xs">{errors.privacy}</p>
               )}
 
               <button
@@ -409,21 +682,26 @@ const Registrieren = () => {
               >
                 <MessageCircle className="w-5 h-5" />
                 {loading
-                  ? "Wird gesendet..."
+                  ? "Wird gesendet ..."
                   : activePlan.requiresPayment
                   ? `${activePlan.name}-Plan starten per WhatsApp`
                   : "Kostenlos starten per WhatsApp"}
               </button>
 
-              <div className="flex flex-wrap justify-center gap-6 pt-4">
+              <div className="flex flex-wrap justify-center gap-6 pt-2">
                 {[
                   { icon: Shield, label: "DSGVO-konform" },
-                  { icon: CreditCard, label: activePlan.requiresPayment ? "Zahlungslink per E-Mail" : "Keine Kreditkarte" },
+                  {
+                    icon: CreditCard,
+                    label: activePlan.requiresPayment
+                      ? "Zahlungslink per E-Mail"
+                      : "Keine Kreditkarte",
+                  },
                   { icon: Zap, label: "Sofort per WhatsApp" },
                 ].map(({ icon: Icon, label }) => (
                   <span
                     key={label}
-                    className="flex items-center gap-1.5 text-primary-foreground/50 text-xs"
+                    className="flex items-center gap-1.5 text-muted-foreground text-xs"
                   >
                     <Icon className="w-3.5 h-3.5" />
                     {label}
@@ -432,6 +710,67 @@ const Registrieren = () => {
               </div>
             </form>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  /* ─────────────────────────────────────────────────────────
+     STEP 3 — Success
+  ───────────────────────────────────────────────────────── */
+
+  const SuccessStep = () => (
+    <div className="max-w-lg mx-auto animate-fade-in">
+      <div className="bg-card border border-border rounded-2xl p-8 sm:p-10 text-center shadow-lg">
+        <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-6">
+          <MessageCircle className="w-8 h-8 text-accent" />
+        </div>
+
+        <h2 className="font-grotesk text-2xl sm:text-3xl font-bold text-primary mb-3">
+          Willkommen bei ImmoPics.ai!
+        </h2>
+
+        <div className="bg-accent/5 border border-accent/20 rounded-xl p-4 mb-6">
+          <p className="text-foreground text-sm font-medium mb-1">
+            Ihr gewählter Plan
+          </p>
+          <p className="font-grotesk text-lg font-bold text-primary">
+            {activePlan.name}
+            {activePlan.requiresPayment && <> &ndash; {price}&euro; / Monat</>}
+          </p>
+        </div>
+
+        <p className="text-muted-foreground text-sm mb-2">
+          Schauen Sie jetzt in Ihr WhatsApp &ndash; Sie erhalten eine Nachricht
+          mit dem &ldquo;Loslegen&rdquo;-Button.
+        </p>
+
+        {activePlan.requiresPayment && (
+          <p className="text-muted-foreground text-sm mt-4 bg-muted/50 rounded-lg p-3">
+            Für den <strong>{activePlan.name}</strong>-Plan erhalten Sie im
+            Anschluss einen Zahlungslink per E-Mail.
+          </p>
+        )}
+
+        <p className="text-muted-foreground/60 text-xs mt-6">
+          Keine Nachricht erhalten? Bitte prüfen Sie Ihre Telefonnummer oder
+          kontaktieren Sie uns per WhatsApp.
+        </p>
+      </div>
+    </div>
+  );
+
+  /* ── render ── */
+
+  return (
+    <main>
+      <Navigation />
+      <section className="pt-28 pb-20 bg-cream min-h-screen">
+        <div className="container mx-auto px-4">
+          <StepIndicator />
+          {step === "plan" && <PlanStep />}
+          {step === "form" && <FormStep />}
+          {step === "success" && <SuccessStep />}
         </div>
       </section>
       <Footer />
